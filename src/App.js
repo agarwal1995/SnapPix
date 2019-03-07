@@ -8,20 +8,25 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import "./App.css";
 import Firebase from "./firebase/Firebase";
+import Profile from "./components/Profile";
+import Feeds from "./components/Feeds";
 
 class App extends Component {
   state = {
-    authenticated: false
+    authenticated: false,
+    loader: true
   };
 
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(authenticated => {
       authenticated
         ? this.setState(() => ({
-            authenticated: true
+            authenticated: true,
+            loader: false
           }))
         : this.setState(() => ({
-            authenticated: false
+            authenticated: false,
+            loader: false
           }));
     });
   }
@@ -35,6 +40,8 @@ class App extends Component {
           <div className="container" />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/feeds" component={Feeds} />
           <Footer />
         </div>
       </Router>
