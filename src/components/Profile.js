@@ -4,6 +4,8 @@ import { Image } from "react-bootstrap";
 import Firebase, { storage, database } from "./../firebase/Firebase";
 import "./../style.css";
 import logo from "./../img/logo.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const sizeSet = {
   color: "grey"
@@ -22,7 +24,11 @@ class Profile extends Component {
     fileUrl: "",
     filename: "",
     fileId: "",
-    caption: ""
+    caption: "",
+    visibleToast: false,
+    likes: 0,
+    check: false,
+    comments: 0
   };
 
   componentDidMount() {
@@ -50,13 +56,19 @@ class Profile extends Component {
       id: newPostKey,
       postUrl: this.state.fileUrl,
       likes: 0,
+      comments: 0,
+      likesId: [""],
       comments: [""],
       user: this.state.name,
       filename: this.state.filename,
       userId: this.state.id,
       profilePic: this.state.profile,
-      caption: this.state.caption
+      caption: this.state.caption,
+      check: false
     });
+    /*database.ref("likes/" + newPostKey).set({
+      users: [""]
+    });*/
   };
 
   handleSubmit = event => {
@@ -112,7 +124,24 @@ class Profile extends Component {
             fileUrl: durl
           });
           this.writeUserPost();
+          this.showToast("Your Post has been uploaded successfully");
+          this.setState({
+            fileUpload: "",
+            filename: ""
+          });
         });
+      }
+    );
+  };
+
+  showToast = e => {
+    toast(e);
+    this.setState(
+      {
+        visibleToast: true
+      },
+      () => {
+        setTimeout(() => this.setState({ visibleToast: false }), 3000);
       }
     );
   };
@@ -254,6 +283,7 @@ class Profile extends Component {
                 <Button outline color="success" onClick={this.handleUpload}>
                   &nbsp;Post&nbsp;
                 </Button>
+                <ToastContainer />
               </center>
             </Col>
           </Row>

@@ -42,11 +42,23 @@ class Navbars extends Component {
     const { authenticated } = this.state;
 
     const userLinks = (
-      <NavItem>
-        <NavLink href="/" style={authStyle} onClick={this.onLogoutClick}>
-          Logout
-        </NavLink>
-      </NavItem>
+      <Nav>
+        <NavItem>
+          <NavLink href="/feeds" style={authStyle}>
+            Feed
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/profile" style={authStyle}>
+            Profile
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/" style={authStyle} onClick={this.onLogoutClick}>
+            Logout
+          </NavLink>
+        </NavItem>
+      </Nav>
     );
 
     const guestLinks = (
